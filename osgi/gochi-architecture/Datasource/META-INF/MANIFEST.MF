@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: DatasourceService
+Bundle-SymbolicName: DatasourceService
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: es.iti.gochi.osgi.datasource.DatasourceActivator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: DatasourceService
+Import-Package: org.osgi.framework;version="1.3.0"
+Bundle-ActivationPolicy: lazy
+Export-Package: es.iti.gochi.osgi.datasource.service

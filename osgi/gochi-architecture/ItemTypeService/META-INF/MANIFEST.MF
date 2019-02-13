@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: ItemTypeService
+Bundle-SymbolicName: ItemTypeService
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: es.iti.gochi.osgi.itemtype.ItemTypeActivator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: ItemTypeService
+Import-Package: es.iti.gochi.osgi.datasource.service,
+ org.osgi.framework;version="1.3.0"
+Bundle-ActivationPolicy: lazy
+Export-Package: es.iti.gochi.osgi.itemtype.model,
+ es.iti.gochi.osgi.itemtype.service
