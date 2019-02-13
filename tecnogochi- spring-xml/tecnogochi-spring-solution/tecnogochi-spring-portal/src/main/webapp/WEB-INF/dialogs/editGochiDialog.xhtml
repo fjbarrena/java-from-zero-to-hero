@@ -1,0 +1,47 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:p="http://primefaces.org/ui">
+    <p:dialog id="newGochiDialog" widgetVar="newGochiWVar"
+              modal="true" closeOnEscape="true" resizable="false"
+              header="Nuevo Gochi" 
+              position="center"
+              styleClass="new-gochi-dialog">
+        <p:ajax event="close" listener="#{view.onGochiDialogClose}" update=":mainForm" />
+        <h:form id="newGochiForm">
+            <p:message for="gochiName" />
+            <div class="mb1e">
+                <p:outputLabel for="gochiName" value="Nombre" styleClass="form-label"/>
+                <p:inputText id="gochiName" value="#{view.newGochi.name}"  
+                             styleClass="form-field-value" 
+                             required="true" requiredMessage="Debes introducir un nombre para tu gochi" />
+            </div>
+            <p:message for="typeSelector" />
+            <div class="mb1e">
+                <p:outputLabel for="typeSelector" value="Tipo de Gochi" styleClass="form-label"/>
+                <p:selectOneMenu id="typeSelector" value="#{view.newGochi.gochiType}" 
+                                 required="true"
+                                 converter="gochiTypeConverter">
+                    <f:selectItem noSelectionOption="true" itemLabel="Select type..."/>
+                    <f:selectItems value="#{gochiTypesHolder.allGochiTypes}" var="type" itemLabel="#{type.name}" itemValue="#{type}"/>
+                </p:selectOneMenu>
+            </div>
+
+            <div class="mt1e">
+                <p:commandButton value="Crear"
+                                 action="#{view.onSaveGochi}" 
+                                 process="newGochiForm" 
+                                 update=":mainForm"
+                                 styleClass="btn btn-primary" icon="ui-icon-check"
+                                 />
+                <p:spacer width="10px" height="10px"/>
+                <p:commandButton value="Cancelar"
+                                 process="@this" 
+                                 styleClass="btn" icon="ui-icon-close" 
+                                 oncomplete="PF('newGochiWVar').hide()"/>
+            </div>
+        </h:form>
+    </p:dialog>
+</ui:composition>

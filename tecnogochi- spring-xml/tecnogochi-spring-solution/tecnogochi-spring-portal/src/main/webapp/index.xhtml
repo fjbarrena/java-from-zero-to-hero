@@ -1,0 +1,179 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      >
+    <h:head>
+        <title>Tecnogochi</title>
+    </h:head>
+    <h:body>
+        <h:form id="mainForm">
+            <p:poll id="poll" widgetVar="poll"
+                    listener="#{mainVC.step}" process="@this" update="north gochi @this" 
+                    interval="5" stop="#{mainVC.shouldStopPoll}" autoStart="false"  />
+
+            <div class="north">
+                <p:outputPanel id="north" rendered="#{mainVC.renderGame}">
+                    <div class="centered infoContainer">
+                        <div class="infoItemContainer #{mainVC.starving ? 'danger' : ''}" 
+                             style="background: linear-gradient(0deg, hsla(#{mainVC.currentGochi.food},100%,70%,1) #{mainVC.currentGochi.food}%, rgba(0,0,0,0) 0%);">
+                            <p:outputLabel for="hambre" value="Hambre" />
+                            <p:graphicImage id="hambre" value="/resources/images/dock/bread_icon.png" />
+                        </div>
+                        <div class="infoItemContainer #{mainVC.thirsty ? 'danger' : ''}"
+                             style="background: linear-gradient(0deg, hsla(#{mainVC.currentGochi.drink},100%,70%,1) #{mainVC.currentGochi.drink}%, rgba(0,0,0,0) 0%);">
+                            <p:outputLabel for="sed" value="Sed" />
+                            <p:graphicImage id="sed" value="/resources/images/dock/water_icon.png" />
+                        </div>
+                        <div class="infoItemContainer #{mainVC.bored ? 'danger' : ''}"
+                             style="background: linear-gradient(0deg, hsla(#{mainVC.currentGochi.fun},100%,70%,1) #{mainVC.currentGochi.fun}%, rgba(0,0,0,0) 0%);">
+                            <p:outputLabel for="fun" value="Diversion" />
+                            <p:graphicImage id="fun" value="/resources/images/dock/clown_icon.png" />
+                        </div>
+                        <div class="infoItemContainer #{mainVC.alone ? 'danger' : ''}"
+                             style="background: linear-gradient(0deg, hsla(#{mainVC.currentGochi.social},100%,70%,1) #{mainVC.currentGochi.social}%, rgba(0,0,0,0) 0%);">
+                            <p:outputLabel for="social" value="Social" />
+                            <p:graphicImage id="social" value="/resources/images/dock/social_icon.png"/>
+                        </div>
+                    </div>
+                </p:outputPanel>
+            </div>
+
+            <div class="west">
+                <p:stack icon="/resources/images/dock/dock_icon.png" expanded="true" rendered="#{mainVC.renderGame}">
+                    <p:menuitem value="Socializar" icon="/resources/images/dock/social_icon.png" 
+                                actionListener="#{mainVC.onChangeItemType('social')}" update="actionsPanel" process="@this"/>
+                    <p:menuitem value="Divertirse" icon="/resources/images/dock/clown_icon.png" 
+                                actionListener="#{mainVC.onChangeItemType('fun')}" update="actionsPanel" process="@this"/>
+                    <p:menuitem value="Beber" icon="/resources/images/dock/water_icon.png" 
+                                actionListener="#{mainVC.onChangeItemType('drink')}" update="actionsPanel" process="@this"/>
+                    <p:menuitem value="Comer" icon="/resources/images/dock/bread_icon.png" 
+                                actionListener="#{mainVC.onChangeItemType('food')}" update="actionsPanel" process="@this"/>
+                </p:stack>
+            </div>
+
+            <div class="center">
+                <div style="text-align: center;">
+                    <p:outputPanel id="slot" styleClass="slot" rendered="#{mainVC.renderGame}">
+                        <h:panelGroup id="gochi" layout="block" styleClass="gochi-container #{mainVC.gochiStyleClass}" >
+                            <ui:fragment rendered="#{mainVC.currentGochi.gochiType.name eq 'HOMER'}">
+                                <ui:include src="/WEB-INF/gochis/homer.xhtml" />
+                            </ui:fragment>
+                            <ui:fragment rendered="#{mainVC.currentGochi.gochiType.name eq 'MARGE'}">
+                                <ui:include src="/WEB-INF/gochis/marge.xhtml" />
+                            </ui:fragment>
+                            <ui:fragment rendered="#{mainVC.currentGochi.gochiType.name eq 'KRUSTY'}">
+                                <ui:include src="/WEB-INF/gochis/krusty.xhtml" />
+                            </ui:fragment>
+                            <ui:fragment rendered="#{mainVC.currentGochi.gochiType.name eq 'RALPH'}">
+                                <ui:include src="/WEB-INF/gochis/ralph.xhtml" />
+                            </ui:fragment>
+                            <ui:fragment rendered="#{mainVC.currentGochi.gochiType.name eq 'FLANDERS'}">
+                                <ui:include src="/WEB-INF/gochis/flanders.xhtml" />
+                            </ui:fragment>
+                            <ui:fragment rendered="#{mainVC.currentGochi.gochiType.name eq 'APU'}">
+                                <ui:include src="/WEB-INF/gochis/apu.xhtml" />
+                            </ui:fragment>
+                        </h:panelGroup>
+                    </p:outputPanel>
+                </div>
+                <p:droppable for="slot" >
+                    <p:ajax listener="#{mainVC.onDrop}" process="@this" update="north gochi"/>
+                </p:droppable>
+            </div>
+
+            <div class="east">
+                <label class="mr1e vam" >Selected Gochi</label>
+                <p:selectOneMenu id="gochiSelector" value="#{mainVC.currentGochi}" 
+                                 converter="gochiConverter" disabled="#{sessionBean.allGochis.size() lt 2}"
+                                 styleClass="vam" effect="fold">
+                    <f:selectItem noSelectionOption="true" itemLabel="Select gochi"/>
+                    <f:selectItems value="#{sessionBean.allGochis}" var="gochi" itemLabel="#{gochi.name}" itemValue="#{gochi}"/>
+                    <p:ajax event="change"  update="@form" process="@this" listener="#{mainVC.init()}"/>
+                </p:selectOneMenu>
+                <p:commandButton id="newGochi"
+                                 actionListener="#{mainVC.onNewGochi}" 
+                                 process="@this" update="newGochiDialog poll"
+                                 oncomplete="PF('newGochiWVar').show()"
+                                 styleClass="ml1e vam" icon="ui-icon-plusthick ui-button-icon-only">
+                </p:commandButton>
+            </div>
+
+            <div class="south">
+                <p:panel id="actionsPanel" styleClass="centered actionsPanel" rendered="#{mainVC.renderGame}">
+                    <h:panelGroup rendered="#{mainVC.renderFoods}">
+                        <div class="actionContainer">
+                            <p:graphicImage id="burger" value="/resources/images/actions/hamburger_icon.jpg" height="96" width="96"/>
+                            <p:draggable for="burger" revert="true" helper="clone" zindex="10000" opacity="0.7"/>
+                        </div>
+                        <div class="actionContainer">
+                            <p:graphicImage id="brocoli" value="/resources/images/actions/broccoli_icon.jpg" height="96" width="96"/>
+                            <p:draggable for="brocoli" revert="true" helper="clone" zindex="10000" opacity="0.7"/>
+                        </div>
+                        <div class="actionContainer">
+                            <p:graphicImage id="pizza" value="/resources/images/actions/pizza_icon.jpg" height="96" width="96"/>
+                            <p:draggable for="pizza" revert="true" helper="clone" zindex="10000"
+                                         opacity="0.7"/>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{mainVC.renderDrinks}">
+                        <div class="actionContainer">
+                            <p:graphicImage id="agua" value="/resources/images/actions/glass_of_milk_icon.jpg" height="96" width="96"/>
+                            <p:draggable for="agua" revert="true" helper="clone" zindex="10000" opacity="0.7"/>
+                        </div>
+                        <div class="actionContainer">
+                            <p:graphicImage id="cerveza" value="/resources/images/actions/beer_icon.jpg" height="96" width="96"/>
+                            <p:draggable for="cerveza" revert="true" helper="clone" zindex="10000" opacity="0.7"/>
+                        </div>
+                        <div class="actionContainer">
+                            <p:graphicImage id="whisky" value="/resources/images/actions/whisky_glass_icon.jpg" height="96" width="96"/>
+                            <p:draggable for="whisky" revert="true" helper="clone" zindex="10000"
+                                         opacity="0.7"/>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{mainVC.renderSocial}">
+                        <div class="actionContainer">
+                            <p:graphicImage id="movil" value="/resources/images/actions/phone_icon.jpg" height="96" width="96"/>
+                            <p:draggable for="movil" revert="true" helper="clone" zindex="10000" opacity="0.7"/>
+                        </div>
+                        <div class="actionContainer">
+                            <p:graphicImage id="facebook" value="/resources/images/actions/facebook_icon.jpg" height="96" width="96"/>
+                            <p:draggable for="facebook" revert="true" helper="clone" zindex="10000" opacity="0.7"/>
+                        </div>
+                        <div class="actionContainer">
+                            <p:graphicImage id="twitter" value="/resources/images/actions/twitter_icon.jpg" height="96" width="96"/>
+                            <p:draggable for="twitter" revert="true" helper="clone" zindex="10000"
+                                         opacity="0.7"/>
+                        </div>
+                    </h:panelGroup>
+                    <h:panelGroup rendered="#{mainVC.renderFuns}">
+                        <div class="actionContainer">
+                            <p:graphicImage id="tablet" value="/resources/images/actions/tablet_icon.jpg" height="96" width="96"/>
+                            <p:draggable for="tablet" revert="true" helper="clone" zindex="10000" opacity="0.7"/>
+                        </div>
+                        <div class="actionContainer">
+                            <p:graphicImage id="consola" value="/resources/images/actions/games_control_icon.jpg" height="96" width="96"/>
+                            <p:draggable for="consola" revert="true" helper="clone" zindex="10000" opacity="0.7"/>
+                        </div>
+                        <div class="actionContainer">
+                            <p:graphicImage id="pelota" value="/resources/images/actions/ball_basketball_icon.jpg" height="96" width="96"/>
+                            <p:draggable for="pelota" revert="true" helper="clone" zindex="10000"
+                                         opacity="0.7"/>
+                        </div>
+                    </h:panelGroup>
+                </p:panel>
+                <h:outputText value="#{application.serverInfo}" />
+            </div>
+        </h:form>
+
+        <ui:include src="/WEB-INF/dialogs/editGochiDialog.xhtml" >
+            <ui:param name="gochi" value="#{mainVC.newGochi}" />
+            <ui:param name="view" value="#{mainVC}" />
+        </ui:include>
+
+        <h:outputStylesheet library="css" name="layout.css" />
+    </h:body>
+</html>

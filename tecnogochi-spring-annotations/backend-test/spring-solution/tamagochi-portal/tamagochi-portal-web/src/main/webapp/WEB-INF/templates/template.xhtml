@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<title>JSF 2 Spring 4 JPA 2 Application</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<h:outputStylesheet name="css/screen.css" />
+</h:head>
+<h:body>
+    <!-- First Row -->
+    <div id="header" class="ui-g">
+        <div class="ui-g-12">
+            Header
+        </div>
+    </div>
+    
+    <div id="main_content" class="ui-g">
+        <div class="ui-g-4" style="background-color: darkgoldenrod">
+            Menú lateral
+        </div>
+        
+        <div class="ui-g-8" style="background-color: darksalmon">
+            <ui:insert name="content">Main Content</ui:insert>
+        </div>
+    </div>
+    
+    <div id="footer" class="ui-g">
+        <div class="ui-g-12">
+            Footer
+        </div>
+    </div>
+
+</h:body>
+</html>

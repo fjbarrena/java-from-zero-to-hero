@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<display-name>tamagochi-portal</display-name>
+
+	<context-param>
+            <param-name>contextClass</param-name>
+            <param-value>
+                org.springframework.web.context.support.AnnotationConfigWebApplicationContext
+            </param-value>
+        </context-param>
+
+        <!-- Aquí pongo los ficheros de configuración de mis capas de persistencia, etc. -->
+        <!-- OJO: El orden es importante, de más alto a más bajo -->
+        <context-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>
+                es.iti.tamagochi.portal.spring.PortalSpringConfiguration,
+                es.iti.spring.core.spring.CoreSpringConfiguration,
+                es.iti.spring.persistence.spring.PersistenceSpringConfiguration
+            </param-value>
+        </context-param>
+        
+	<context-param>
+		<param-name>javax.faces.FACELETS_SKIP_COMMENTS</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+		<param-value>true</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.PROJECT_STAGE</param-name>
+<!-- 		<param-value>Production</param-value> -->
+		<param-value>Development</param-value>
+	</context-param>
+	<context-param>
+		<param-name>javax.faces.PARTIAL_STATE_SAVING</param-name>
+		<param-value>false</param-value>
+	</context-param>
+
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+	<listener>
+		<listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
+	</listener>
+
+	<servlet>
+            <servlet-name>Faces Servlet</servlet-name>
+            <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+            <load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet-mapping>
+            <servlet-name>Faces Servlet</servlet-name>
+            <url-pattern>*.jsf</url-pattern>
+	</servlet-mapping>
+
+        <!-- Esto es siempre igual -->
+        <servlet>
+            <servlet-name>dispatcherServlet</servlet-name>
+            <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+            <!-- Si mi fichero se llama diferente a spring-servlet.xml, pues lo cambio -->
+            <init-param>
+                <param-name>contextConfigLocation</param-name>
+                <param-value>/WEB-INF/spring-servlet.xml</param-value>
+            </init-param>
+            <load-on-startup>3</load-on-startup>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>dispatcherServlet</servlet-name>
+            <url-pattern>/</url-pattern>
+        </servlet-mapping>
+</web-app>

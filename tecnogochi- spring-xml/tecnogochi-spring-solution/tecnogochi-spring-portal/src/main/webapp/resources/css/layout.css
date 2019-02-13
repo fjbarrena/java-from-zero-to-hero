@@ -1,0 +1,241 @@
+/* 
+    Created on : 17-nov-2015, 9:41:36
+    Author     : Salvador Morera i Soler 
+*/
+
+
+/* General */
+@font-face {
+    font-family: 'SimpsonsFont';
+    src: url('../resources/fonts/Simpsonfont.woff2') format('woff2'),
+        url('../resources/fonts/Simpsonfont.woff') format('woff'),
+        url('../resources/fonts/Simpsonfont.ttf') format('truetype');
+}
+
+html {
+    font-family : SimpsonsFont, Impact, Charcoal, sans-serif;
+    background: linear-gradient(0, #FFFFFF 55%, #C0DFED 70%);
+}
+
+label {
+    display:block;
+    margin-bottom: 0.5em;
+    font-weight: bold;
+}
+
+.ui-selectonemenu-label {
+    min-width: 170px;
+}
+
+.ui-widget {
+    font-family : SimpsonsFont, Impact, Charcoal, sans-serif;
+}
+
+.ui-outputlabel .ui-outputlabel-rfi {
+    font-family: "Comic Sans MS", Arial,sans-serif;
+}
+
+.ui-selectonemenu .ui-selectonemenu-trigger .ui-icon {
+    margin-top: 9px;
+}
+.ui-selectonemenu .ui-selectonemenu-trigger {
+    padding: 0 6px;
+}
+
+.ui-button-icon-only {
+    width: 1em;
+}
+
+button.ui-button-icon-only {
+    width: 2em;
+}
+
+.dib { display: inline-block; }
+.mr1e { margin-right: 1em; }
+.ml1e { margin-left: 1em; }
+.mt1e { margin-top : 1em; }
+.mb1e { margin-bottom: 1em}
+.vam{ vertical-align: middle; }
+
+
+/* Elements */
+.ui-stack {
+    right: initial;
+    bottom: 42%;
+    left: 104px;
+}
+
+.ui-stack .openStack li span{
+    font-family:SimpsonsFont, Impact, Charcoal, sans-serif;
+}
+
+.slot {
+    padding: 1em;
+    display: inline-block;
+    z-index: 0;
+    /*border: 1px solid #FF9900;*/
+    border-radius: 3px;
+}
+
+.gochi-container {
+    zoom:2;
+    min-width: 125px;
+    min-height: 200px;
+    border-radius: 30px;
+}
+
+.dead {
+    background-image: url(../resources/images/rip_640.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.dead > div {
+    zoom: 0.2;
+}
+
+.actionContainer {
+    display: inline-block;
+    padding: 1em;
+}
+
+.actionsPanel {
+    width: 439px; 
+    width: calc(8.4em + 291px);
+    height: 154px;
+    height: calc(3.4em + 96px);
+    /*background: #9ADDFB;*/
+    border: none;
+}
+
+.infoContainer {
+    max-width: 700px;
+    width: 50%;
+    /*    width: calc(535px + 8em);*/
+}
+
+.infoItemContainer {
+    text-align: center;
+    width: 22%;
+    width: calc(25% - 2em - 4px);
+    display: inline-block;
+    padding: 0 1em;
+    border-radius: 3px 3px 30px 30px;
+}
+
+.infoItemContainer img {
+    opacity: 0.8;
+    display: block;
+    max-width: 128px;
+    max-height: 128px;
+    width: 100%;
+    height: auto;
+}
+
+@keyframes intermmitentBackground {
+    from { background-color: #FF3333; }
+    to { background-color: rgba(0,0,0,0); }
+}
+@-webkit-keyframes intermmitentBackground {
+    from { background-color: #FF3333; }
+    to { background-color: rgba(0,0,0,0); }
+}
+@-ms-keyframes intermmitentBackground {
+    from { background-color: #FF3333; }
+    to { background-color: rgba(0,0,0,0); }
+}
+@-moz-keyframes intermmitentBackground {
+    from { background-color: #FF3333; }
+    to { background-color: rgba(0,0,0,0); }
+}
+
+.danger	{
+    animation: intermmitentBackground 1s linear infinite;
+    -ms-animation: intermmitentBackground 1s linear infinite;
+    -moz-animation: intermmitentBackground 1s linear infinite;
+    -webkit-animation: intermmitentBackground 1s linear infinite;
+}
+
+.full-level {
+    background: #33FF33;
+}
+
+.high-level {
+    background: #B1FF33;
+}
+
+.medium-level {
+    background: #FFF933;
+}
+
+.low-level {
+    background: #FFAD33;
+}
+
+.critical-level {
+    background: #FF3333;
+}
+
+
+/* Layout */
+
+.centered {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.north {
+    width: auto;
+    z-index: 0;
+    height: 200px;
+    display: block;
+    visibility: visible;
+}
+
+
+
+.west {
+    height: 435px;
+    z-index: 0;
+    visibility: visible;
+    display: inline-block;
+    width: 20%;
+    min-width:290px;
+    vertical-align: bottom;
+}
+
+.center {
+    height: 435px;
+    z-index: 0;
+    visibility: visible;
+    display: inline-block;
+    width: 58%;
+    width: calc(60% - 8px);
+    min-width:350px;
+    vertical-align: bottom;
+}
+
+.east {
+    height: 435px;
+    z-index: 0;
+    visibility: visible;
+    display: inline-block;
+    width: 20%;
+    min-width:290px;
+    vertical-align: bottom;
+}
+
+.south {
+    position: absolute;
+    margin: 0px;
+    top: auto;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    width: auto;
+    z-index: 0;
+    height: 190px;
+    display: block;
+    visibility: visible;
+}
+
